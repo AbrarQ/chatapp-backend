@@ -1,6 +1,6 @@
 const loginsModel = require('../Models/loginsmodel')
 const bcrypt = require('bcrypt')
-const DataCheck = require('../Models/functions')
+const dataCheck = require('../Models/functions')
 const jwt = require('jsonwebtoken');
 
 
@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 exports.signup = async (req, res) => {
 
     console.log("Entering signup")
-    const emailCheck = await DataCheck.usernameCheck(req.body.emailAdress)
+    const emailCheck = await dataCheck.usernameCheck(req.body.emailAdress)
     console.log("email check is", emailCheck)
     if (emailCheck == true) {
         console.log("Email id matched")
@@ -37,7 +37,7 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
 
     console.log(req.body)
-    const loginData = await DataCheck.fetchlogins(req.body.emailAdress);
+    const loginData = await dataCheck.fetchlogins(req.body.emailAdress);
 
     if (loginData == false) {
         res.status(404).json({ message: "User doesnt exist, please sign up" })
@@ -47,10 +47,10 @@ exports.signin = async (req, res) => {
         const comparePass = await bcrypt.compare(req.body.password, hashpass)
 
         if (comparePass == false) {
-            res.status(401).json({  message: "Incorrect Password, Please try again" })
+            res.status(401).json({ message: "Incorrect Password, Please try again" })
         } else if (comparePass == true) {
-            res.status(200).json({ token :  await generateJWToken(loginData[0].id) , message: "Login Successful" })
-            
+            res.status(200).json({ token: await generateJWToken(loginData[0].id), message: "Login Successful" })
+
         }
     }
 
@@ -58,7 +58,10 @@ exports.signin = async (req, res) => {
 
 
 
-async function generateJWToken(key){
-    return  jwt.sign({id : key}, process.env.jwtSecretKey);;
+
+
+
+async function generateJWToken(key) {
+    return jwt.sign({ id: key }, process.env.jwtSecretKey);;
 }
 
