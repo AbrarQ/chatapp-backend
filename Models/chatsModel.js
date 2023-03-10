@@ -15,7 +15,12 @@ const chats = sequelizeToDB.define('chatsTable',{
         type : Sequelize.STRING, 
         allowNull : false,
      
-      }     
+      },
+      groupid: {
+        type: Sequelize.INTEGER,
+    
+    }
+
     })
 
 module.exports = chats

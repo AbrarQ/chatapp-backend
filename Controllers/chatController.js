@@ -20,7 +20,7 @@ exports.postchat = async (req, res) => {
         await chatModel.create(({
             chat: req.body.chat,
             userLoginId: userid, 
-            groupid : req.body.groupid
+            groupslistGroupid : req.body.groupid
         })).then(respose => {
             res.status(200).json({ success: true })
 
@@ -46,7 +46,7 @@ exports.getchat = async (req, res, next) => {
 
 
     const chatstore = await chatModel.findAll({
-        attributes: ['id','chat','groupid'],
+        attributes: ['id','chat','groupslistGroupid'],
         include: [{ 
             model : userloginModel,
             attributes : ['name'],
@@ -55,30 +55,28 @@ exports.getchat = async (req, res, next) => {
       order : ['id']
     }).then(response => { return response })
 
+console.log(chatstore)
+    if(chatstore.length != 0){
+        const chatstore1 = JSON.stringify(chatstore)
+        const chatstore2 = JSON.parse(chatstore1);
+        console.log("sending this",chatstore)
+        const check = chatstore2[chatstore2.length-1].id
+        console.log("check",check,"last message id", lastmessageid)
+        
+        if(check == lastmessageid ){
+          res.status(200).json({update : false})
+        } else if (lastmessageid == undefined || check < lastmessageid || check > lastmessageid){
+            res.status(200).json({chats : chatstore })
+         }
+    } else if(chatstore.length==0){
+        res.status(200).json({chats : undefined })
 
-const chatstore1 = JSON.stringify(chatstore)
-const chatstore2 = JSON.parse(chatstore1);
-console.log("sending this",chatstore)
-const check = chatstore2[chatstore2.length-1].id
-console.log("check",check,"last message id", lastmessageid)
+    }
 
-if(check == lastmessageid ){
-  res.status(200).json({update : false})
-} else if (chatstore != null){
-    res.status(200).json({chats : chatstore })
- }
+
 
  
 
-   
-    // console.log(chatstore)
 
-
-    // const groupchatslist =  await groupsListModel.findAll()
-    // .then(response => {return response})
- 
-    // if (chatstore != null){
-    //    res.status(200).json({chats : chatstore, groupchats :groupchatslist })
-    // }
 
 }

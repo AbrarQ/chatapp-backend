@@ -3,37 +3,9 @@ const Sequelize = require('sequelize');
 //sequelize database connection
 const sequelizeToDB = require('../utility/databaseConnection');
 
-const logins = sequelizeToDB.define('userLogins',{
-    id : { 
-        type : Sequelize.INTEGER, 
-        autoIncrement : true,
-        allowNull : false,
-        primaryKey : true,
-      },
+const userToGroup = sequelizeToDB.define('userGroup',{
+  
     
-      name : { 
-        type : Sequelize.STRING, 
-        allowNull : false,
-     
-      },
-    
-      email : { 
-        type : Sequelize.STRING,
-        allowNull : false, 
-        
-      },
-      phonenumber : { 
-        type : Sequelize.STRING,
-        allowNull : false, 
-        
-      },
-      password : { 
-        type : Sequelize.STRING,
-        allowNull : false, 
-        
-      }
-
-    })
 
 
 //     logins.define({
@@ -55,11 +27,11 @@ const logins = sequelizeToDB.define('userLogins',{
 //         allowNull : false, 
         
 //       },
-//       phonenumber : { 
-//         type : Sequelize.STRING,
-//         allowNull : false, 
+      admin : { 
+        type : Sequelize.STRING,
+        allowNull : false, 
         
-//       },
+      }
 //       password : { 
 //         type : Sequelize.STRING,
 //         allowNull : false, 
@@ -68,7 +40,7 @@ const logins = sequelizeToDB.define('userLogins',{
 
 //       groupids: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
 
-//     })
+})
 
 
 
@@ -76,4 +48,4 @@ const logins = sequelizeToDB.define('userLogins',{
 
 // sequelizeToDB.sync();
 
-module.exports = logins
+module.exports = userToGroup

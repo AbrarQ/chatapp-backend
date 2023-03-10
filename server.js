@@ -3,19 +3,44 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express();
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-
-const logins = require('./Models/loginsmodel')
+app.use(cors())
+const sequelize = require('./utility/databaseConnection');
+const users = require('./Models/loginsmodel')
+const chats = require('./Models/chatsModel')
+const groups = require('./Models/groupsListModel')
+const userToGroup = require('./Models/userToGroupModel')
+const adminGroup = require('./Models/admin-groupModel')
 
 const userRoutes = require('./Routes/userRoutes');
-const sequelize = require('./utility/databaseConnection');
+const chatRoutes = require('./Routes/chatRoutes')
+const groupRoutes = require('./Routes/groupRoutes')
+
+
 app.use('/user',userRoutes)
+app.use('/chat',chatRoutes)
+app.use('/group',groupRoutes)
 
 
- sequelize.sync({}).then(result => 
+
+users.hasMany(chats)
+chats.belongsTo(users)
+
+groups.hasMany(chats)
+chats.belongsTo(groups)
+
+users.belongsToMany(groups, {through : userToGroup })
+groups.belongsToMany(users, {through : userToGroup})
+
+users.belongsToMany(groups, {through : adminGroup})
+groups.belongsToMany(users, {through : adminGroup})
+
+
+
+ sequelize.sync({alter : true}).then(result => 
     {
         console.log("Database sync done")
         // console.log(result)
