@@ -30,3 +30,4 @@ const groupsList = sequelizeToDB.define('groupslist',{
 })
 
 module.exports = groupsList
+

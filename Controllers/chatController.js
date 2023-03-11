@@ -74,9 +74,4 @@ console.log(chatstore)
     }
 
 
-
- 
-
-
-
 }

@@ -19,8 +19,11 @@
   "homepage": "https://github.com/AbrarQ/chatapp-backend#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "compression": "^1.7.4",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^9.0.0",
-    "nodemon": "^2.0.21"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.21",
+    "pm2": "^5.2.2"
   }
 }

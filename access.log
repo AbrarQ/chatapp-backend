@@ -1,0 +1,6 @@
+::1 - - [11/Mar/2023:03:59:45 +0000] "GET / HTTP/1.1" 404 260 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::1 - - [11/Mar/2023:04:00:35 +0000] "GET /favicon.ico HTTP/1.1" 404 261 "http://localhost:1000/signup/signup.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::1 - - [11/Mar/2023:04:00:43 +0000] "POST /user/signin HTTP/1.1" 200 156 "http://localhost:1000/signin/signin.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::1 - - [11/Mar/2023:04:00:43 +0000] "GET /group/getlist HTTP/1.1" 200 314 "http://localhost:1000/chathome/chathome.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::1 - - [11/Mar/2023:04:00:43 +0000] "GET /chat/getchat HTTP/1.1" 200 2662 "http://localhost:1000/chathome/chathome.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::1 - - [11/Mar/2023:04:00:49 +0000] "GET /group/getlist HTTP/1.1" 304 - "http://localhost:1000/newgc/newgc.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"

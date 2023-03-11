@@ -6,7 +6,6 @@ const sequelizeToDB = require('../utility/databaseConnection');
 const adminGroup = sequelizeToDB.define('adminsTable',{
 
     
-
 })
 
 module.exports = adminGroup

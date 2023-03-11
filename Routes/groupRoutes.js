@@ -10,5 +10,4 @@ router.post('/deleteuser', groupControllers.deleteUser)
 router.get('/getlist', groupControllers.getlist)
 
 
-
 module.exports = router

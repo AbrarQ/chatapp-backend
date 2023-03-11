@@ -198,19 +198,6 @@ exports.deleteUser = async (req, res) => {
 exports.fetchuser = async (req, res) => {
     console.log("fetching user", req.body.groupid)
 
-    // await userToGroup.findAll({where : { groupslistGroupid :req.body.groupid  }})
-    // .then(response => console.log(response))
-
-
-    // const chatstore = await chatModel.findAll({
-    //     attributes: ['id','chat','groupslistGroupid'],
-    //     include: [{ 
-    //         model : userloginModel,
-    //         attributes : ['name'],
-    //         required : true
-    //     }],
-    //   order : ['id']
-    // }).then(response => { return response })
 
     const users = await userToGroup.findAll({
         attributes: ['userLoginId'],
@@ -237,50 +224,6 @@ exports.fetchuser = async (req, res) => {
 
 }
 
-
-// exports.superuser=async (req,res)=> {
-
-//     const groupid = req.body.groupid
-//     const user = req.body.userid
-//     const token = req.header("Authorization");
-//     console.log(token);
-//     const requesterId = await dataChecks.tokenAuthentication(token);
-
-//     const adminData = await userToGroup.findAll({
-
-//         attributes : ['admin'],
-
-//           where : {
-//             [Op.and]: [
-//                 { groupslistGroupid: groupid },
-//               ]    
-//           }
-//     })
-//     .then(response => { 
-//         const keys = response.map(id => id.get('admin','userLogins'))
-//     return keys;
-// }).catch((err)=> console.log(err))
-
-
-// for ( let i=0;i<adminData.length;i++) {
-//     if(adminData[i] == requesterId){
-//         await userToGroup.update({
-//             admin : user
-//         }, 
-//         {
-//             where : { userLoginId: user, groupslistGroupid:groupid  }
-
-//         })
-//         .then(response => {res.json(200).json({ update : response, message : "User added as admin"})})
-//         .catch(err=> console.log(err))
-//         res.end()
-//     }
-// }
-
-// // res.status(402).json({message:"You are not Authorised"})
-
-
-// }
 
 
 
