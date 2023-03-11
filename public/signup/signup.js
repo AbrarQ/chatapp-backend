@@ -23,7 +23,7 @@ try{
     }
     console.log(signupObj)
 
-    await axios.post("http://localhost:1000/user/signup",signupObj)
+    await axios.post("http://52.72.228.99:1000/user/signup",signupObj)
     .then(response =>{
         console.log(response.data.message);
         document.getElementById("signupresult").innerText = response.data.message
