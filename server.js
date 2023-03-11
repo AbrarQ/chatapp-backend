@@ -63,4 +63,4 @@ groups.belongsToMany(users, {through : adminGroup})
     }).catch(err => {
         console.log(err)
     })
-app.listen(1000);
+app.listen(4000);
