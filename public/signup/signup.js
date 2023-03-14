@@ -1,3 +1,5 @@
+
+
 async function signup(event){
     event.preventDefault();
 /**
@@ -23,7 +25,7 @@ try{
     }
     console.log(signupObj)
 
-    await axios.post("http://52.72.228.99:4000/user/signup",signupObj)
+    await axios.post("http://localhost:4000/user/signup",signupObj)
     .then(response =>{
         console.log(response.data.message);
         document.getElementById("signupresult").innerText = response.data.message
@@ -39,3 +41,37 @@ try{
     
 
 }
+
+
+
+
+// async function sendtoweb(e){
+//     e.preventDefault(); 
+// const button = document.getElementById("websocket")
+
+// const ab =button.addEventListener("onsubmit",e=>{
+//    return document.getElementById("websocket").value
+// })
+
+
+// console.log(ab)
+// }
+
+const socket = io("http://localhost:4000")
+
+socket.on('connect',()=>{
+    
+
+    document.getElementById("websocketdisplay").innerText=`${socket.id}`;
+    console.log(`${socket.id}`)
+   
+})
+socket.emit("custom",'how you doing bro',2234 )
+socket.emit("custom3",'how you doing dudesfsadfasdfas',2234 )
+
+socket.on("custom2",(message)=>{
+    document.getElementById("websocketdisplay").innerText=`${message}`;
+})
+
+
+

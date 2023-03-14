@@ -11,7 +11,7 @@ async function newgc(event) {
 
 
 
-    await axios.post("http://52.72.228.99:4000/group/addnewgc", groupData, { headers: { "Authorization": localStorage.getItem("token") } })
+    await axios.post("http://localhost:4000/group/addnewgc", groupData, { headers: { "Authorization": localStorage.getItem("token") } })
         .then(response => { 
 
             console.log(response.data)
@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         window.location.href = '../signin/signin.html';
     }
 
-    await axios.get("http://52.72.228.99:4000/group/getlist",{ headers: { "Authorization": localStorage.getItem("token") } })
+    await axios.get("http://localhost:4000/group/getlist",{ headers: { "Authorization": localStorage.getItem("token") } })
         .then(response => { console.log(response.data)
             localStorage.setItem("groupchats", JSON.stringify(response.data.grouplist));})
 
@@ -104,7 +104,7 @@ async function adduser(event) {
 
     console.log(userObj)
     if(userObj.groupid!= ""  &&  userObj.username!="" && userObj.phonenumber!="" ){
-const response = await axios.post("http://52.72.228.99:4000/group/adduser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
+const response = await axios.post("http://localhost:4000/group/adduser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
 .then(response => response)
 
  document.getElementById("useraddingresult").innerText = response.data.message
@@ -141,7 +141,7 @@ async function deleteuser (event) {
 
     console.log(userObj)
     if(userObj.groupid!= ""  &&  userObj.username!="" && userObj.phonenumber!="" ){
-        const response = await axios.post("http://52.72.228.99:4000/group/deleteuser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
+        const response = await axios.post("http://localhost:4000/group/deleteuser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
         .then(response => response)
         
          document.getElementById("useraddingresult").innerText = response.data.message

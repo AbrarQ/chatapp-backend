@@ -19,7 +19,7 @@ async function postchat(event) {
         }
         // console.log(signinObj)
 
-        await axios.post("http://52.72.228.99:4000/chat/postchat", chatObj, { headers: { "Authorization": localStorage.getItem("token") } })
+        await axios.post("http://localhost:1000/chat/postchat", chatObj, { headers: { "Authorization": localStorage.getItem("token") } })
             .then(response => {
 
                 document.getElementById("chatinput").value = "";
@@ -36,8 +36,10 @@ async function postchat(event) {
 
 }
 
+
+
 async function fetchGroupslist(){
-    await axios.get("http://52.72.228.99:4000/group/getlist", { headers: { "Authorization": localStorage.getItem("token") } })
+    await axios.get("http://localhost:4000/group/getlist", { headers: { "Authorization": localStorage.getItem("token") } })
         .then(response => {
             console.log(response.data)
             localStorage.setItem("groupchats", JSON.stringify(response.data.grouplist));
@@ -47,7 +49,7 @@ async function fetchGroupslist(){
 
 async function fetchchats(){
 
-    const response = await axios.get("http://52.72.228.99:4000/chat/getchat", { headers: { "Authorization": localStorage.getItem("token") } })
+    const response = await axios.get("http://localhost:4000/chat/getchat", { headers: { "Authorization": localStorage.getItem("token") } })
         .then(response => { return response.data })
 
     if (response.chats != undefined) {
@@ -91,40 +93,40 @@ await fetchGroupslist();
 
 
 
-   setInterval(async ()=>{
-    console.log("printing at each second")
+//    setInterval(async ()=>{
+//     console.log("printing at each second")
 
 
-const chats = JSON.parse(localStorage.getItem("chats"))
+// const chats = JSON.parse(localStorage.getItem("chats"))
 
-const lastmessageid= chats[chats.length-1].id
-console.log(lastmessageid)
-
-
-const response = await axios.get(`http://52.72.228.99:4000/chat/getchat?id=${lastmessageid}&`, {headers :{ "Authorization": localStorage.getItem("token") }})
-.then(response =>  (response.data)) 
-
-console.log(response.chats)
+// const lastmessageid= chats[chats.length-1].id
+// console.log(lastmessageid)
 
 
-    if (response.chats != undefined){
-        const chatbox = response.chats
+// const response = await axios.get(`http://localhost:4000/chat/getchat?id=${lastmessageid}&`, {headers :{ "Authorization": localStorage.getItem("token") }})
+// .then(response =>  (response.data)) 
 
-if(chatbox.length>200){
-    localStorage.setItem("chats",JSON.stringify(chatbox.slice(chatbox.length-200)))
-} else if( chatbox.length < 200){
+// console.log(response.chats)
 
-    localStorage.setItem("chats",JSON.stringify(chatbox))
-}
 
-printMessages();
+//     if (response.chats != undefined){
+//         const chatbox = response.chats
 
-    }else if(response.chats == undefined){
-       console.log("All chats Fetched")
+// if(chatbox.length>200){
+//     localStorage.setItem("chats",JSON.stringify(chatbox.slice(chatbox.length-200)))
+// } else if( chatbox.length < 200){
 
-    }
+//     localStorage.setItem("chats",JSON.stringify(chatbox))
+// }
 
-},4000)
+// printMessages();
+
+//     }else if(response.chats == undefined){
+//        console.log("All chats Fetched")
+
+//     }
+
+// },1000)
 
 
 
@@ -171,10 +173,12 @@ function printgroupslist() {
     }
 }
 
-function getGroupId(event) {
+async function getGroupId(event) {
     // var text = link.innerHTML;
 
     document.getElementsByName("sendbutton")[0].id = event.target.id
+    await fetchchats()
+    
     printMessages();
     fetchUser( event.target.id);
     console.log(event.target.id)
@@ -273,7 +277,7 @@ console.log(username)
 
 
 
-    const response = await axios.post("http://52.72.228.99:4000/group/deleteuser",obj, { headers: { "Authorization": localStorage.getItem("token") } })
+    const response = await axios.post("http://localhost:4000/group/deleteuser",obj, { headers: { "Authorization": localStorage.getItem("token") } })
     .then(response => { document.getElementById("resultprinting").innerText=response.data.message }).catch((err)=> { return err})
     console.log(response)
 
@@ -300,7 +304,7 @@ async function makehimadmin(event){
     document.getElementById("resultprinting").innerText="";
 
 
-    const response = await axios.post("http://52.72.228.99:4000/group/superuser",obj, { headers: { "Authorization": localStorage.getItem("token") } })
+    const response = await axios.post("http://localhost:4000/group/superuser",obj, { headers: { "Authorization": localStorage.getItem("token") } })
     .then(response => { document.getElementById("resultprinting").innerText=response.data.message }).catch((err)=> { return err})
     console.log(response)
 
@@ -339,7 +343,7 @@ async function adduser(event) {
 
     // console.log(userObj)
     if(userObj.groupid!= ""  &&  userObj.username!="" && userObj.phonenumber!="" ){
-const response = await axios.post("http://52.72.228.99:4000/group/adduser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
+const response = await axios.post("http://localhost:4000/group/adduser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
 .then(response => response)
 
  document.getElementById("useraddingresult").innerText = response.data.message
@@ -372,7 +376,7 @@ groupid
     }
     
 
-    const response = await axios.post("http://52.72.228.99:4000/group/fetchuser", id)
+    const response = await axios.post("http://localhost:4000/group/fetchuser", id)
 .then(response => response)
 console.log(response.data.users)
 
