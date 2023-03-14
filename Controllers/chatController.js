@@ -11,12 +11,47 @@ exports.postchat = async (req, res) => {
 
 
     try {
-        console.log("Our request body is..", req.body)
-        const token = req.header("Authorization");
+
+
+        const token = req.header("Authorization") || req.body.token
         console.log(token);
         const userid = await dataChecks.tokenAuthentication(token)
         console.log(userid)
 
+
+
+        console.log(req.body)
+
+
+        if(req.files!=null){
+            console.log("not null")
+            console.log("Our request body is..", (req.files.file.data))
+            const fileName =  req.files.file.name
+     
+            const file =  Buffer.from(req.files.file.data, 'binary')
+            
+            
+     
+     
+            const fileurl = await dataChecks.uploadToS3(file, fileName)
+         console.log("file url is",fileurl)
+
+         await chatModel.create(({
+            chat: fileurl,
+            userLoginId: userid, 
+            groupslistGroupid : req.body.groupid
+        })).then(respose => {
+            res.status(200).json({ success: true })
+
+
+        })
+
+
+         
+        } else if(req.files == null){
+
+       
+console.log("illeagal entering")
 
         await chatModel.create(({
             chat: req.body.chat,
@@ -27,6 +62,8 @@ exports.postchat = async (req, res) => {
 
 
         })
+        }
+       
     } catch (err) {
         console.log(err, " at postChat Controller")
     }

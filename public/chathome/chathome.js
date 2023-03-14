@@ -19,7 +19,7 @@ async function postchat(event) {
         }
         // console.log(signinObj)
 
-        await axios.post("http://localhost:1000/chat/postchat", chatObj, { headers: { "Authorization": localStorage.getItem("token") } })
+        await axios.post("http://localhost:4000/chat/postchat", chatObj, { headers: { "Authorization": localStorage.getItem("token") ,"Content-Type": "multipart/form-data",} })
             .then(response => {
 
                 document.getElementById("chatinput").value = "";
@@ -138,7 +138,8 @@ function printMessages() {
 
     const chats = JSON.parse(localStorage.getItem("chats"))
     console.log(chats)
-
+console.log(chats[71].chat)
+console.log(isURL(chats[71].chat))
     const parent = document.getElementById("messageprinter")
 
     parent.innerHTML = "";
@@ -146,9 +147,16 @@ function printMessages() {
 
 
         if (chats[i].groupslistGroupid == document.getElementsByName("sendbutton")[0].id) {
-            parent.innerHTML += ` <div class="message">
-            <p class="text-secondary">${chats[i].userLogin.name} : ${chats[i].chat}</p>
-        </div>`
+            if(isURL(chats[i].chat)){
+                parent.innerHTML += ` <div class="message">
+                <p class="text-secondary">${chats[i].userLogin.name} : <a href=${chats[i].chat}>Sent an Attachment</p>
+            </div>`
+            }else{
+                parent.innerHTML += ` <div class="message">
+                <p class="text-secondary">${chats[i].userLogin.name} : ${chats[i].chat}</p>
+            </div>`
+            }
+           
         } else {
             continue;
         }
@@ -157,6 +165,16 @@ function printMessages() {
 
 }
 
+
+
+function isURL(str) {
+    try {
+      new URL(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
 // THis fucntion will print the groups list in the left part of the screen
 
@@ -382,5 +400,32 @@ console.log(response.data.users)
 
  localStorage.setItem("userslist",JSON.stringify(response.data.users))
 }
+
+
+
+
+const fileInput = document.querySelector('#sendAttachment')
+console.log(fileInput)
+
+// const fileInput = document.getElementById('file-input')
+
+fileInput.addEventListener('change', async (e)=> {
+    e.preventDefault();
+   const Selected_file = fileInput.files[0]
+   console.log(Selected_file)
+//    const formData = new FormData();
+// formData.append('file', Selected_file,`${Selected_file.name}`);
+
+// const fileReader = new FileReader(); // initialize the object  
+// fileReader.readAsArrayBuffer(Selected_file);
+
+const groupID = document.getElementsByName("sendbutton")[0].id
+console.log(groupID)
+
+
+   await axios.post("http://localhost:4000/chat/postchat",{file : Selected_file, groupid :groupID },{ headers: { "Authorization": localStorage.getItem("token"),"Content-Type": "multipart/form-data",} })
+    
+})
+
 
 

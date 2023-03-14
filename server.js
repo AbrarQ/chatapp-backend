@@ -5,6 +5,7 @@ const cors = require('cors')
 const app = express();
 const fs = require('fs')
 const path = require('path')
+const upload = require('express-fileupload')
 
 const server = require('http').createServer(app)
 const io = require('socket.io')(server,{cors : {origin :"*"}})
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'))
 app.use(cors())
+app.use(upload())
 
 //We are using a different port of websockets and 
 //we are using a new port 1000 for websockets and 

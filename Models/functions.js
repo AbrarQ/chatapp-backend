@@ -2,6 +2,8 @@ const loginsModel = require('./loginsmodel')
 const jwt = require('jsonwebtoken');
 const groupsListModel = require("../Models/groupsListModel");
 const userloginModel = require('../Models/loginsmodel')
+const aws = require('aws-sdk')
+require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 
 
 async function usernameCheck(email){
@@ -73,12 +75,56 @@ async function usercheck(username){
     
     }
 
+
+
+
+
+async function uploadToS3(data, filename) {
+    try{
+      const BUCKET_NAME = process.env.BUCKET_NAME;
+      const IAM_USER_KEY = process.env.IAM_USER_KEY;
+      const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+  
+  
+  
+      let s3Bucket =  new aws.S3 ({
+          accessKeyId: IAM_USER_KEY,
+          secretAccessKey : IAM_USER_SECRET,
+          // Bucket : BUCKET_NAME
+      })
+  var params = {
+              Bucket : BUCKET_NAME,
+              Key : filename,
+              Body : data,
+              ACL : ' public-read'
+  
+          }
+          return new Promise((resolve,reject)=>{
+              s3Bucket.upload(params,async(err,s3response)=>{
+                  if (err){
+                      console.log("AWS ERROR",err)
+                      reject(err)
+                  } else {
+                      console.log("AWS success",s3response)
+                       resolve  (s3response.Location);
+                  }
+              })
+          })
+    } catch(err){
+      console.log(err)
+      
+    }
+          
+      } 
+
+
 module.exports={
     usernameCheck,
     fetchlogins,
     tokenAuthentication,
     generateGroupID,
     groupnameCheck,
-    usercheck
+    usercheck,
+    uploadToS3
 }
 
